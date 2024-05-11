@@ -16,4 +16,5 @@
     <string name="Required">Required</string>
     <string name="title">judul</string>
     <string name="description">deskripsi</string>
+    <string name="error_loading_story">Error loading story</string>
 </resources>

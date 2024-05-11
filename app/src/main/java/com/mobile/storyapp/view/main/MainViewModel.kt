@@ -16,6 +16,9 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     val stories: LiveData<StoryResponse>
         get() = _stories
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
@@ -27,12 +30,15 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     fun getStories() {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val storyResponse = repository.getStories()
                 _stories.value = storyResponse
             } catch (e: Exception) {
                 _stories.value = StoryResponse(error = true, message = e.message)
+            } finally {
+                _isLoading.value = false
             }
         }
     }

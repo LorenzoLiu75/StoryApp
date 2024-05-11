@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("com.google.code.gson:gson:2.8.8")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("io.coil-kt:coil:2.6.0")
 
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

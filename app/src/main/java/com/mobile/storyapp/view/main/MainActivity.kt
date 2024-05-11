@@ -3,6 +3,7 @@ package com.mobile.storyapp.view.main
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -26,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.listStory.layoutManager = LinearLayoutManager(this)
-        storyAdapter = StoryAdapter()
-        binding.listStory.adapter = storyAdapter
+        viewModel.isLoading.observe(this) { isLoading ->
+            showLoading(isLoading)
+        }
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         setupView()
         setupAction()
         observeStories()
+
+        binding.listStory.layoutManager = LinearLayoutManager(this)
+        storyAdapter = StoryAdapter()
+        binding.listStory.adapter = storyAdapter
     }
 
     private fun observeStories() {
@@ -71,6 +76,10 @@ class MainActivity : AppCompatActivity() {
         binding.logoutButton.setOnClickListener {
             viewModel.logout()
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
 }

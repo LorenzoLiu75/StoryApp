@@ -1,6 +1,7 @@
 package com.mobile.storyapp.data
 
 import com.mobile.storyapp.data.api.ApiService
+import com.mobile.storyapp.data.api.DetailStoryResponse
 import com.mobile.storyapp.data.api.LoginResponse
 import com.mobile.storyapp.data.api.RegisterResponse
 import com.mobile.storyapp.data.api.StoryResponse
@@ -33,6 +34,9 @@ class UserRepository(
 
     suspend fun getStories(): StoryResponse {
         return apiService.getStories()
+    }
+    suspend fun getStoryDetail(storyId: String): DetailStoryResponse {
+        return apiService.getStoryDetail(storyId)
     }
 
     fun getSession() = userPreference.getSession()
