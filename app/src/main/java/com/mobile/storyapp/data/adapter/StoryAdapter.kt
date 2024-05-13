@@ -1,8 +1,10 @@
 package com.mobile.storyapp.data.adapter
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,21 +22,33 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.StoryViewHolder>(St
     }
 
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
+
         val story = getItem(position)
         holder.bind(story)
         holder.itemView.setOnClickListener {
             val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
             intentDetail.putExtra("storyId", story.id)
-            holder.itemView.context.startActivity(intentDetail)
+
+            val photoPair = android.util.Pair.create(holder.binding.ivItemPhoto as View, "photo")
+            val namePair = android.util.Pair.create(holder.binding.tvItemName as View, "name")
+            val descriptionPair = android.util.Pair.create(holder.binding.storyDescription as View, "description")
+
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                holder.itemView.context as Activity,
+                photoPair,
+                namePair,
+                descriptionPair
+            ).toBundle()
+
+            holder.itemView.context.startActivity(intentDetail, options)
         }
     }
 
-    class StoryViewHolder(private val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    class StoryViewHolder(val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(story: ListStoryItem) {
-            binding.storyTitle.text = story.name
+            binding.tvItemName.text = story.name
             binding.storyDescription.text = story.description
-            binding.storyImage.load(story.photoUrl)
-            Log.d("StoryAdapter", "Photo URL: ${story.photoUrl}")
+            binding.ivItemPhoto.load(story.photoUrl)
         }
     }
 

@@ -17,4 +17,9 @@
     <string name="title">judul</string>
     <string name="description">deskripsi</string>
     <string name="error_loading_story">Error loading story</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="message">Message</string>
+    <string name="upload">Upload</string>
+    <string name="empty_image_warning">Silakan masukkan berkas gambar dan deskripsi terlebih dahulu.</string>
 </resources>

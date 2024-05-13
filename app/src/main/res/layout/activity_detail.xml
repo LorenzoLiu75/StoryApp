@@ -8,7 +8,8 @@
     tools:context=".view.detail.DetailActivity">
 
     <ImageView
-        android:id="@+id/story_image_detail"
+        android:id="@+id/iv_detail_photo"
+        android:transitionName="photo"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         tools:src="@tools:sample/avatars"
@@ -16,32 +17,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/story_title_detail"/>
+        app:layout_constraintBottom_toTopOf="@+id/tv_detail_name"/>
 
     <TextView
-        android:id="@+id/story_title_detail"
+        android:id="@+id/tv_detail_name"
+        android:transitionName="name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
-        android:layout_toEndOf="@id/story_image_detail"
+        android:layout_toEndOf="@id/iv_detail_photo"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/story_image_detail"
+        app:layout_constraintTop_toBottomOf="@id/iv_detail_photo"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/title"/>
 
     <TextView
-        android:id="@+id/story_description_detail"
+        android:id="@+id/tv_detail_description"
+        android:transitionName="description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="14dp"
-        android:layout_toEndOf="@id/story_image_detail"
+        android:layout_toEndOf="@id/iv_detail_photo"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/story_title_detail"
+        app:layout_constraintTop_toBottomOf="@id/tv_detail_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         tools:text="@string/description"/>

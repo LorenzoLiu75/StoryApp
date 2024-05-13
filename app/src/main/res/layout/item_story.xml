@@ -17,42 +17,44 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/story_image"
+            android:id="@+id/iv_item_photo"
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="180dp"
             tools:src="@tools:sample/avatars"
             android:scaleType="centerCrop"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintBottom_toTopOf="@+id/story_title"/>
+            card_view:layout_constraintBottom_toTopOf="@+id/tv_item_name"/>
 
         <TextView
-            android:id="@+id/story_title"
+            android:id="@+id/tv_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginStart="14dp"
-            android:layout_toEndOf="@id/story_image"
+            android:layout_toEndOf="@id/iv_item_photo"
             android:textSize="18sp"
             android:textStyle="bold"
-            card_view:layout_constraintTop_toBottomOf="@id/story_image"
+            card_view:layout_constraintTop_toBottomOf="@id/iv_item_photo"
             card_view:layout_constraintStart_toStartOf="parent"
             tools:text="@string/title"/>
 
         <TextView
             android:id="@+id/story_description"
-            android:layout_width="wrap_content"
+
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:layout_marginBottom="14dp"
-            android:layout_toEndOf="@id/story_image"
+            android:layout_toEndOf="@id/iv_item_photo"
             android:textSize="16sp"
             android:maxLines="1"
             android:ellipsize="end"
-            card_view:layout_constraintTop_toBottomOf="@id/story_title"
+            card_view:layout_constraintTop_toBottomOf="@id/tv_item_name"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintStart_toEndOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"

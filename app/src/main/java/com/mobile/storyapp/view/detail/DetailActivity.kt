@@ -37,21 +37,25 @@ class DetailActivity : AppCompatActivity() {
             if (!storyResponse.error!!) {
                 storyResponse.story?.let { displayStoryDetails(it) }
             } else {
-                binding.storyTitleDetail.text = getString(R.string.error_loading_story)
-                binding.storyDescriptionDetail.text = storyResponse.message ?: "Unknown error"
+                binding.tvDetailName.text = getString(R.string.error_loading_story)
+                binding.tvDetailDescription.text = storyResponse.message ?: "Unknown error"
             }
         })
 
         viewModel.error.observe(this, Observer { error ->
-            binding.storyTitleDetail.text = "Error"
-            binding.storyDescriptionDetail.text = error
+            binding.tvDetailName.text = "Error"
+            binding.tvDetailDescription.text = error
         })
     }
 
     private fun displayStoryDetails(story: Story) {
-        binding.storyTitleDetail.text = story.name
-        binding.storyDescriptionDetail.text = story.description
-        binding.storyImageDetail.load(story.photoUrl)
+        binding.tvDetailName.text = story.name
+        binding.tvDetailDescription.text = story.description
+        binding.ivDetailPhoto.load(story.photoUrl)
+
+        binding.ivDetailPhoto.transitionName = "photo"
+        binding.tvDetailName.transitionName = "name"
+        binding.tvDetailDescription.transitionName = "description"
     }
 
     private fun showLoading(isLoading: Boolean) {

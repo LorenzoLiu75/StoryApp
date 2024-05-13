@@ -3,6 +3,8 @@ package com.mobile.storyapp.view.main
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -10,9 +12,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.storyapp.R
 import com.mobile.storyapp.data.adapter.StoryAdapter
 import com.mobile.storyapp.databinding.ActivityMainBinding
 import com.mobile.storyapp.view.ViewModelFactory
+import com.mobile.storyapp.view.add.AddStoryActivity
 import com.mobile.storyapp.view.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
@@ -41,12 +45,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupView()
-        setupAction()
         observeStories()
 
         binding.listStory.layoutManager = LinearLayoutManager(this)
         storyAdapter = StoryAdapter()
         binding.listStory.adapter = storyAdapter
+
+        binding.fabAddStory.setOnClickListener {
+            startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_logout, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.logout -> {
+                viewModel.logout()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun observeStories() {
@@ -68,13 +91,6 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
-        }
-        supportActionBar?.hide()
-    }
-
-    private fun setupAction() {
-        binding.logoutButton.setOnClickListener {
-            viewModel.logout()
         }
     }
 

@@ -99,7 +99,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val PREF_NAME = "UserPreferences"
-        private const val KEY_USER_TOKEN = "userToken"
+        const val PREF_NAME = "UserPreferences"
+        const val KEY_USER_TOKEN = "userToken"
     }
 }
