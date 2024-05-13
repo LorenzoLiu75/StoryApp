@@ -1,6 +1,7 @@
 package com.mobile.storyapp.view.detail
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,9 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.detail_story)
+
         val storyId = intent.getStringExtra("storyId")
 
         storyId?.let {
@@ -38,14 +42,24 @@ class DetailActivity : AppCompatActivity() {
                 storyResponse.story?.let { displayStoryDetails(it) }
             } else {
                 binding.tvDetailName.text = getString(R.string.error_loading_story)
-                binding.tvDetailDescription.text = storyResponse.message ?: "Unknown error"
+                binding.tvDetailDescription.text = storyResponse.message ?: getString(R.string.unknown_error)
             }
         })
 
         viewModel.error.observe(this, Observer { error ->
-            binding.tvDetailName.text = "Error"
+            binding.tvDetailName.text = getString(R.string.error)
             binding.tvDetailDescription.text = error
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun displayStoryDetails(story: Story) {

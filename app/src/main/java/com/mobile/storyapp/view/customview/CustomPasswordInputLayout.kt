@@ -17,7 +17,7 @@ class CustomPasswordInputLayout(context: Context, attrs: AttributeSet) : TextInp
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             s?.let {
                 if (it.length < 8) {
-                    error = "Password tidak boleh kurang dari 8 karakter"
+                    error = context.getString(R.string.password_cannot_be_less_than_8_character)
                 } else {
                     error = null
                 }

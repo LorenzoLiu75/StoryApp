@@ -9,8 +9,10 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.mobile.storyapp.R
 import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.data.api.ApiConfig
+import com.mobile.storyapp.data.api.AuthApiService
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivitySignupBinding
 import com.mobile.storyapp.view.ViewModelFactory
@@ -19,7 +21,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private val signupViewModel: SignupViewModel by viewModels {
         ViewModelFactory(
-            UserRepository(ApiConfig.getApiService(getUserToken()), UserPreference.getInstance(this))
+            UserRepository(ApiConfig.getAuthApiService() ,ApiConfig.getApiService(getUserToken()), UserPreference.getInstance(this))
         )
     }
 
@@ -85,7 +87,7 @@ class SignupActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle(title)
             setMessage(message)
-            setPositiveButton("Lanjut") { _, _ ->
+            setPositiveButton(getString(R.string.lanjut)) { _, _ ->
                 finish()
             }
             create()

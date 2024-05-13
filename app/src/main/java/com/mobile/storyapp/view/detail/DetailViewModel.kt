@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.data.api.DetailStoryResponse
+import com.mobile.storyapp.data.api.StoryResponse
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val repository: UserRepository) : ViewModel() {
@@ -26,7 +27,7 @@ class DetailViewModel(private val repository: UserRepository) : ViewModel() {
                 val response = repository.getStoryDetail(storyId)
                 _story.value = response
             } catch (e: Exception) {
-                _error.value = e.message ?: "Unknown error occurred"
+                _error.value = DetailStoryResponse(error = true, message = e.message).toString()
             } finally {
                 _isLoading.value = false
             }

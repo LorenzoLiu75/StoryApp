@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.mobile.storyapp.R
 import com.mobile.storyapp.data.pref.UserModel
 import com.mobile.storyapp.databinding.ActivityLoginBinding
 import com.mobile.storyapp.view.ViewModelFactory
@@ -69,9 +70,9 @@ class LoginActivity : AppCompatActivity() {
                         viewModel.saveSession(userModel)
 
                         AlertDialog.Builder(this).apply {
-                            setTitle("Yeah!")
-                            setMessage("Success")
-                            setPositiveButton("Lanjut") { _, _ ->
+                            setTitle(getString(R.string.yeah))
+                            setMessage(getString(R.string.success))
+                            setPositiveButton(getString(R.string.lanjut)) { _, _ ->
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
@@ -83,9 +84,9 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } else {
                     AlertDialog.Builder(this).apply {
-                        setTitle("Error")
-                        setMessage("Login failed")
-                        setPositiveButton("OK") { _, _ -> }
+                        setTitle(getString(R.string.error))
+                        setMessage(getString(R.string.login_failed))
+                        setPositiveButton(getString(R.string.ok)) { _, _ -> }
                         create()
                         show()
                     }

@@ -11,11 +11,11 @@ import okhttp3.internal.userAgent
 object Injection {
     fun provideRepository(context: Context): UserRepository {
         val userPreference = UserPreference.getInstance(context)
-
         val user = runBlocking { userPreference.getSession().first() }
 
-        val apiService = ApiConfig.getApiService(user.token)
+        val authApiService = ApiConfig.getAuthApiService()
+        val storyApiService = ApiConfig.getApiService(user.token)
 
-        return UserRepository(apiService, userPreference)
+        return UserRepository(authApiService, storyApiService, userPreference)
     }
 }

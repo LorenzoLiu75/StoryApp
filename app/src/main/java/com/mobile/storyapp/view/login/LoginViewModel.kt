@@ -12,8 +12,10 @@ import kotlinx.coroutines.launch
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val _loginResult = MutableLiveData<LoginResponse>()
-    val loginResult: LiveData<LoginResponse>
-        get() = _loginResult
+    val loginResult: LiveData<LoginResponse> = _loginResult
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -31,12 +33,12 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
                         saveSession(userModel)
                     }
                 } else {
-                    // Handle login failure
-                    // Example: Tampilkan pesan kesalahan
+                    val errorMessage = response.message ?: "Login failed"
+                    _error.value = errorMessage
                 }
             } catch (e: Exception) {
-                // Handle login error
-                // Example: Tampilkan pesan kesalahan jaringan
+                val networkErrorMessage = "Network error occurred"
+                _error.value = e.message ?: networkErrorMessage
             } finally {
                 _isLoading.value = false
             }

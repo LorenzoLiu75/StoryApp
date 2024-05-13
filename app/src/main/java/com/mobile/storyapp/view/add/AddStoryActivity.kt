@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -44,9 +45,9 @@ class AddStoryActivity : AppCompatActivity() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                Toast.makeText(this, "Permission request granted", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.permission_request_granted), Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "Permission request denied", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.permission_request_denied), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -61,6 +62,9 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.add_story)
+
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
@@ -68,6 +72,16 @@ class AddStoryActivity : AppCompatActivity() {
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.buttonAdd.setOnClickListener { uploadImage() }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun startGallery() {
@@ -81,13 +95,12 @@ class AddStoryActivity : AppCompatActivity() {
             currentImageUri = uri
             showImage()
         } else {
-            Log.d("Photo Picker", "No media selected")
+            Log.d(PHOTO_PICKER, getString(R.string.no_media_selected))
         }
     }
 
     private fun showImage() {
         currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
         }
     }
@@ -108,7 +121,6 @@ class AddStoryActivity : AppCompatActivity() {
     private fun uploadImage() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
             val description = binding.edAddDescription.text.toString()
             showLoading(true)
 
@@ -127,9 +139,9 @@ class AddStoryActivity : AppCompatActivity() {
                     viewModel.uploadStoryImage(token, multipartBody, requestBody)
 
                     AlertDialog.Builder(this@AddStoryActivity).apply {
-                        setTitle("Success")
-                        setMessage("Image uploaded successfully")
-                        setPositiveButton("OK") { dialog, _ ->
+                        setTitle(getString(R.string.success))
+                        setMessage(getString(R.string.image_upload_successfully))
+                        setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                             dialog.dismiss()
                             clearInputFields()
                             showLoading(false)
@@ -142,9 +154,9 @@ class AddStoryActivity : AppCompatActivity() {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorResponse = Gson().fromJson(errorBody, FileUploadResponse::class.java)
                     AlertDialog.Builder(this@AddStoryActivity).apply {
-                        setTitle("Error")
-                        setMessage("Failed to upload image: ${errorResponse.message}")
-                        setPositiveButton("OK") { dialog, _ ->
+                        setTitle(getString(R.string.success))
+                        setMessage(getString(R.string.failed_to_upload_image) + ": ${errorResponse.message}")
+                        setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                             dialog.dismiss()
                             showLoading(false)
                         }
@@ -175,5 +187,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+        private const val PHOTO_PICKER = "Photo Picker"
     }
 }

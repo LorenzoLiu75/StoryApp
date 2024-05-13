@@ -13,7 +13,6 @@ class CustomEmailInputLayout(context: Context, attrs: AttributeSet) : TextInputL
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // No action needed
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -21,13 +20,12 @@ class CustomEmailInputLayout(context: Context, attrs: AttributeSet) : TextInputL
                 if (Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
                     error = null
                 } else {
-                    error = "Email tidak valid"
+                    error = context.getString(R.string.email_is_not_valid)
                 }
             }
         }
 
         override fun afterTextChanged(s: Editable?) {
-            // No action needed
         }
     }
 

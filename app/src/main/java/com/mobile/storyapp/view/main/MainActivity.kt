@@ -3,6 +3,7 @@ package com.mobile.storyapp.view.main
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -67,6 +68,10 @@ class MainActivity : AppCompatActivity() {
                 viewModel.logout()
                 true
             }
+            R.id.language -> {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }
@@ -77,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             if (!storyResponse.error!!) {
                 storyAdapter.submitList(storyResponse.listStory)
             } else {
-                Toast.makeText(this, storyResponse.message ?: "Error fetching stories", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, storyResponse.message ?: getString(R.string.error_fetching_stories), Toast.LENGTH_SHORT).show()
             }
         }
     }
