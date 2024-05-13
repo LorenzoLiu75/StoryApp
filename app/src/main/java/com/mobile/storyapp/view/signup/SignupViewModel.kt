@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.mobile.storyapp.data.AuthRepository
 import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.data.api.ErrorResponse
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class SignupViewModel(private val userRepository: UserRepository) : ViewModel() {
+class SignupViewModel(private val userRepository: AuthRepository) : ViewModel() {
 
     private val _registrationStatus = MutableLiveData<RegistrationStatus>()
     val registrationStatus: LiveData<RegistrationStatus>

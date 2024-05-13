@@ -10,18 +10,20 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.storyapp.R
+import com.mobile.storyapp.data.AuthRepository
 import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.data.api.ApiConfig
-import com.mobile.storyapp.data.api.AuthApiService
+import com.mobile.storyapp.data.api.AuthApiConfig
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivitySignupBinding
+import com.mobile.storyapp.view.AuthViewModelFactory
 import com.mobile.storyapp.view.ViewModelFactory
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private val signupViewModel: SignupViewModel by viewModels {
-        ViewModelFactory(
-            UserRepository(ApiConfig.getAuthApiService() ,ApiConfig.getApiService(getUserToken()), UserPreference.getInstance(this))
+        AuthViewModelFactory(
+            AuthRepository(AuthApiConfig.getApiService(getUserToken()), UserPreference.getInstance(this))
         )
     }
 

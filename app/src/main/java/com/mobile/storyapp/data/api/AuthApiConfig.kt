@@ -7,11 +7,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConfig {
+class AuthApiConfig {
     companion object {
         private const val BASE_URL = BuildConfig.BASE_URL
 
-        fun getApiService(token: String): ApiService {
+        fun getApiService(token: String): AuthApiService {
             val loggingInterceptor = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             } else {
@@ -33,7 +33,7 @@ class ApiConfig {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
-            return retrofit.create(ApiService::class.java)
+            return retrofit.create(AuthApiService::class.java)
         }
     }
 }

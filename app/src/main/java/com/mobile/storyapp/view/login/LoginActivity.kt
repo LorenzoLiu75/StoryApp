@@ -12,12 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mobile.storyapp.R
 import com.mobile.storyapp.data.pref.UserModel
 import com.mobile.storyapp.databinding.ActivityLoginBinding
+import com.mobile.storyapp.view.AuthViewModelFactory
 import com.mobile.storyapp.view.ViewModelFactory
 import com.mobile.storyapp.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
-        ViewModelFactory.getInstance(this)
+        AuthViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityLoginBinding
 
