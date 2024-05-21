@@ -4,16 +4,17 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.storyapp.R
+import com.mobile.storyapp.data.adapter.LoadingStateAdapter
 import com.mobile.storyapp.data.adapter.StoryAdapter
 import com.mobile.storyapp.databinding.ActivityMainBinding
 import com.mobile.storyapp.view.ViewModelFactory
@@ -80,7 +81,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun getStory() {
         val adapter = StoryAdapter()
-        binding.listStory.adapter = adapter
+        binding.listStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
         viewModel.story.observe(this) {
             adapter.submitData(lifecycle, it)
         }
