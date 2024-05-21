@@ -25,4 +25,8 @@ class AuthRepository(private val authApiService: AuthApiService, private val use
     suspend fun saveSession(userModel: UserModel) {
         userPreference.saveSession(userModel)
     }
+
+    companion object {
+        fun getInstance(authApiService: AuthApiService, userPreference: UserPreference) = AuthRepository(authApiService, userPreference)
+    }
 }

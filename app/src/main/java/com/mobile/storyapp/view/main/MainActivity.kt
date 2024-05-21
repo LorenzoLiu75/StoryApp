@@ -18,6 +18,7 @@ import com.mobile.storyapp.data.adapter.StoryAdapter
 import com.mobile.storyapp.databinding.ActivityMainBinding
 import com.mobile.storyapp.view.ViewModelFactory
 import com.mobile.storyapp.view.add.AddStoryActivity
+import com.mobile.storyapp.view.maps.MapsActivity
 import com.mobile.storyapp.view.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityMainBinding
-    private lateinit var storyAdapter: StoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +40,14 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-            } else {
-                viewModel.getStories()
             }
         }
 
         setupView()
-        observeStories()
 
         binding.listStory.layoutManager = LinearLayoutManager(this)
-        storyAdapter = StoryAdapter()
-        binding.listStory.adapter = storyAdapter
+
+        getStory()
 
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
@@ -72,18 +69,20 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 true
             }
+            R.id.maps -> {
+                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun observeStories() {
-        viewModel.stories.observe(this) { storyResponse ->
-            if (!storyResponse.error!!) {
-                storyAdapter.submitList(storyResponse.listStory)
-            } else {
-                Toast.makeText(this, storyResponse.message ?: getString(R.string.error_fetching_stories), Toast.LENGTH_SHORT).show()
-            }
+    private fun getStory() {
+        val adapter = StoryAdapter()
+        binding.listStory.adapter = adapter
+        viewModel.story.observe(this) {
+            adapter.submitData(lifecycle, it)
         }
     }
 

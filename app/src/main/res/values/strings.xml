@@ -39,4 +39,6 @@
     <string name="language">Bahasa</string>
     <string name="detail_story">Detail Cerita</string>
     <string name="add_story">Cerita Baru</string>
+    <string name="maps">Peta</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

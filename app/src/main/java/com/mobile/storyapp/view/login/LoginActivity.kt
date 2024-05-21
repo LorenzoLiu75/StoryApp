@@ -13,7 +13,6 @@ import com.mobile.storyapp.R
 import com.mobile.storyapp.data.pref.UserModel
 import com.mobile.storyapp.databinding.ActivityLoginBinding
 import com.mobile.storyapp.view.AuthViewModelFactory
-import com.mobile.storyapp.view.ViewModelFactory
 import com.mobile.storyapp.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {

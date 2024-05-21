@@ -7,9 +7,8 @@ import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.di.Injection
 import com.mobile.storyapp.view.add.AddStoryViewModel
 import com.mobile.storyapp.view.detail.DetailViewModel
-import com.mobile.storyapp.view.login.LoginViewModel
 import com.mobile.storyapp.view.main.MainViewModel
-import com.mobile.storyapp.view.signup.SignupViewModel
+import com.mobile.storyapp.view.maps.MapsViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
 
@@ -25,21 +24,15 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 AddStoryViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: ViewModelFactory? = null
         @JvmStatic
-        fun getInstance(context: Context): ViewModelFactory {
-            if (INSTANCE == null) {
-                synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
-                }
-            }
-            return INSTANCE as ViewModelFactory
-        }
+        fun getInstance(context: Context) = ViewModelFactory(Injection.provideRepository(context))
     }
 }

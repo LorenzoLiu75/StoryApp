@@ -24,14 +24,6 @@ class AuthViewModelFactory(private val repository: AuthRepository) : ViewModelPr
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: AuthViewModelFactory? = null
-
-        fun getInstance(context: Context): AuthViewModelFactory {
-            return INSTANCE ?: synchronized(this) {
-                val repository = AuthInjection.provideAuthRepository(context)
-                AuthViewModelFactory(repository).also { INSTANCE = it }
-            }
-        }
+        fun getInstance(context: Context) = AuthViewModelFactory(AuthInjection.provideAuthRepository(context))
     }
 }

@@ -6,7 +6,6 @@ import com.mobile.storyapp.data.api.ApiConfig
 import com.mobile.storyapp.data.pref.UserPreference
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.userAgent
 
 object Injection {
     fun provideRepository(context: Context): UserRepository {
