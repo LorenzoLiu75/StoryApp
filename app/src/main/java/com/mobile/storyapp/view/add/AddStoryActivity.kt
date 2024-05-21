@@ -168,10 +168,10 @@ class AddStoryActivity : AppCompatActivity() {
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.getStories()
-//    }
+    override fun onResume() {
+        super.onResume()
+        viewModel.getStories()
+    }
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE

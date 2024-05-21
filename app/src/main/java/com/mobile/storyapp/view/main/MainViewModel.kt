@@ -19,7 +19,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     val story: LiveData<PagingData<ListStoryItem>> =
-        repository.getStories().cachedIn(viewModelScope)
+        repository.getStoriesAll().cachedIn(viewModelScope)
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()

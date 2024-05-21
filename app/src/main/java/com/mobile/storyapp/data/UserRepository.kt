@@ -17,11 +17,11 @@ class UserRepository(
     private val userPreference: UserPreference
 ) {
 
-//    suspend fun getStories(): List<ListStoryItem> {
-//        return apiService.getStories()
-//    }
+    suspend fun getStories(): StoryResponse {
+        return apiService.getStories()
+    }
 
-    fun getStories(): LiveData<PagingData<ListStoryItem>> {
+    fun getStoriesAll(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5

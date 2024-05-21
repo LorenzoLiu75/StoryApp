@@ -15,7 +15,8 @@ import com.mobile.storyapp.data.api.ListStoryItem
 import com.mobile.storyapp.databinding.ItemStoryBinding
 import com.mobile.storyapp.view.detail.DetailActivity
 
-class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.StoryViewHolder>(StoryDiffCallback()) {
+class StoryAdapter :
+    PagingDataAdapter<ListStoryItem, StoryAdapter.StoryViewHolder>(StoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,10 +26,14 @@ class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.StoryViewHold
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
 
         val story = getItem(position)
-        holder.bind(story!!)
+        if (story != null) {
+            holder.bind(story)
+        }
         holder.itemView.setOnClickListener {
             val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
-            intentDetail.putExtra("storyId", story.id)
+            if (story != null) {
+                intentDetail.putExtra("storyId", story.id)
+            }
 
             val photoPair = android.util.Pair.create(holder.binding.ivItemPhoto as View, "photo")
             val namePair = android.util.Pair.create(holder.binding.tvItemName as View, "name")

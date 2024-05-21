@@ -12,14 +12,17 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("stories")
-    suspend fun getStories(
+    suspend fun getStories(): StoryResponse
+
+    @GET("stories")
+    suspend fun getStoriesAll(
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 20
-    ): List<ListStoryItem>
+    ): StoryResponse
 
     @GET("stories")
     suspend fun getStoriesWithLocation(
-        @Query("location") location : Int = 1,
+        @Query("location") location: Int = 1,
     ): StoryResponse
 
     @GET("stories/{id}")

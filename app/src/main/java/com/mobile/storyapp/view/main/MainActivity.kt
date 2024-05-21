@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -80,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getStory() {
+        showLoading(true)
         val adapter = StoryAdapter()
         binding.listStory.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         )
         viewModel.story.observe(this) {
             adapter.submitData(lifecycle, it)
+            showLoading(false)
         }
     }
 
