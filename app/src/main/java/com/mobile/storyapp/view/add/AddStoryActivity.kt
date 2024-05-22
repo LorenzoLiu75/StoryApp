@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.mobile.storyapp.R
+import com.mobile.storyapp.data.adapter.LoadingStateAdapter
+import com.mobile.storyapp.data.adapter.StoryAdapter
 import com.mobile.storyapp.data.api.FileUploadResponse
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivityAddStoryBinding
@@ -138,17 +140,21 @@ class AddStoryActivity : AppCompatActivity() {
 
                     viewModel.uploadStoryImage(token, multipartBody, requestBody)
 
-                    AlertDialog.Builder(this@AddStoryActivity).apply {
-                        setTitle(getString(R.string.success))
-                        setMessage(getString(R.string.image_upload_successfully))
-                        setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                            dialog.dismiss()
-                            clearInputFields()
-                            showLoading(false)
-                            finish()
+                    viewModel.response.observe(this@AddStoryActivity){res->
+                        if(!res.error){
+                            AlertDialog.Builder(this@AddStoryActivity).apply {
+                                setTitle(getString(R.string.success))
+                                setMessage(getString(R.string.image_upload_successfully))
+                                setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                                    dialog.dismiss()
+                                    clearInputFields()
+                                    showLoading(false)
+                                    finish()
+                                }
+                                create()
+                                show()
+                            }
                         }
-                        create()
-                        show()
                     }
                 } catch (e: HttpException) {
                     val errorBody = e.response()?.errorBody()?.string()
@@ -166,11 +172,6 @@ class AddStoryActivity : AppCompatActivity() {
                 }
             }
         } ?: showToast(getString(R.string.empty_image_warning))
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getStories()
     }
 
     private fun showLoading(isLoading: Boolean) {
