@@ -1,7 +1,6 @@
 package com.mobile.storyapp.view.add
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -18,8 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.mobile.storyapp.R
-import com.mobile.storyapp.data.adapter.LoadingStateAdapter
-import com.mobile.storyapp.data.adapter.StoryAdapter
 import com.mobile.storyapp.data.api.FileUploadResponse
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivityAddStoryBinding
@@ -27,7 +24,6 @@ import com.mobile.storyapp.getImageUri
 import com.mobile.storyapp.reduceFileImage
 import com.mobile.storyapp.uriToFile
 import com.mobile.storyapp.view.ViewModelFactory
-import com.mobile.storyapp.view.main.MainActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -142,21 +138,17 @@ class AddStoryActivity : AppCompatActivity() {
 
                     viewModel.uploadStoryImage(token, multipartBody, requestBody)
 
-                    viewModel.response.observe(this@AddStoryActivity){res->
-                        if(!res.error){
-                            AlertDialog.Builder(this@AddStoryActivity).apply {
-                                setTitle(getString(R.string.success))
-                                setMessage(getString(R.string.image_upload_successfully))
-                                setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                                    dialog.dismiss()
-                                    clearInputFields()
-                                    showLoading(false)
-                                    finish()
-                                }
-                                create()
-                                show()
-                            }
+                    AlertDialog.Builder(this@AddStoryActivity).apply {
+                        setTitle(getString(R.string.success))
+                        setMessage(getString(R.string.image_upload_successfully))
+                        setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                            dialog.dismiss()
+                            clearInputFields()
+                            showLoading(false)
+                            finish()
                         }
+                        create()
+                        show()
                     }
                 } catch (e: HttpException) {
                     val errorBody = e.response()?.errorBody()?.string()
@@ -174,6 +166,11 @@ class AddStoryActivity : AppCompatActivity() {
                 }
             }
         } ?: showToast(getString(R.string.empty_image_warning))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getStories()
     }
 
     private fun showLoading(isLoading: Boolean) {
