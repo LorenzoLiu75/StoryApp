@@ -40,6 +40,8 @@
     <string name="language">Language</string>
     <string name="detail_story">Detail Story</string>
     <string name="add_story">New Story</string>
+    <string name="title_activity_maps">MapsActivity</string>
     <string name="maps">Maps</string>
     <string name="retry">Try again</string>
+    <string name="add_location">Add location</string>
 </resources>

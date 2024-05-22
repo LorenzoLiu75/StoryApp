@@ -2,6 +2,8 @@ package com.mobile.storyapp.view.add
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
@@ -39,6 +42,9 @@ class AddStoryActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityAddStoryBinding
     private var currentImageUri: Uri? = null
+    private var currentLocation: Location? = null
+
+    private lateinit var locationManager: LocationManager
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -62,6 +68,8 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.add_story)
 
@@ -72,6 +80,29 @@ class AddStoryActivity : AppCompatActivity() {
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.buttonAdd.setOnClickListener { uploadImage() }
+
+        binding.checkBoxLocation.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                        LOCATION_PERMISSION_REQUEST_CODE
+                    )
+                } else {
+                    getCurrentLocation()
+                }
+            } else {
+                currentLocation = null
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -118,6 +149,21 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let {
+                currentLocation = it
+            }
+        }
+    }
+
     private fun uploadImage() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
@@ -135,10 +181,12 @@ class AddStoryActivity : AppCompatActivity() {
                 try {
                     val userPreference = UserPreference.getInstance(this@AddStoryActivity)
                     val token = userPreference.getSession().first().token
+                    val lat = currentLocation?.latitude
+                    val lon = currentLocation?.longitude
 
-                    viewModel.uploadStoryImage(token, multipartBody, requestBody)
+                    viewModel.uploadStoryImage(token, multipartBody, requestBody, lat, lon)
 
-                    viewModel.response.observe(this@AddStoryActivity){res->
+                    viewModel.response.observe(this@AddStoryActivity){ res ->
                         if(!res.error){
                             AlertDialog.Builder(this@AddStoryActivity).apply {
                                 setTitle(getString(R.string.success))
@@ -186,6 +234,7 @@ class AddStoryActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
         private const val PHOTO_PICKER = "Photo Picker"
     }
 }

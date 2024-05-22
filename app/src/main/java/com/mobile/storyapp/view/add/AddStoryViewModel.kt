@@ -26,11 +26,11 @@ class AddStoryViewModel(repository: UserRepository): ViewModel() {
     val story: LiveData<PagingData<ListStoryItem>> =
         repository.getStoriesAll().cachedIn(viewModelScope)
 
-    suspend fun uploadStoryImage(token: String, multipartBody: MultipartBody.Part, description: RequestBody): FileUploadResponse {
+    suspend fun uploadStoryImage(token: String, multipartBody: MultipartBody.Part, description: RequestBody, lat: Double?, lon: Double?): FileUploadResponse {
         return withContext(Dispatchers.IO) {
             try {
                 val apiService = ApiConfig.getApiService(token)
-                val response = apiService.uploadImage(multipartBody, description)
+                val response = apiService.uploadImage(multipartBody, description, lat, lon)
                 _response.postValue(response)
                 response
             } catch (e: Exception) {

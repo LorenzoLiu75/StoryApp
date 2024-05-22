@@ -22,12 +22,6 @@ interface ApiService {
     ): StoryResponse
 
     @GET("stories")
-    suspend fun getStories(
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): List<ListStoryItem>
-
-    @GET("stories")
     suspend fun getStoriesWithLocation(
         @Query("location") location: Int = 1,
     ): StoryResponse
@@ -42,5 +36,7 @@ interface ApiService {
     suspend fun uploadImage(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
+        @Part("lat") lat: Double? = null,
+        @Part("lon") lon: Double? = null
     ): FileUploadResponse
 }

@@ -1,5 +1,6 @@
 package com.mobile.storyapp.data.mediator
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -47,9 +48,12 @@ class StoryRemoteMediator(
         }
 
         try {
-            val responseData = apiService.getStories(page, state.config.pageSize)
+            Log.d("StoryRemoteMediator", "Loading page: $page with pageSize: ${state.config.pageSize}")
+            val responseData = apiService.getStoriesAll(page, state.config.pageSize).listStory
 
             val endOfPaginationReached = responseData.isEmpty()
+
+            Log.d("StoryRemoteMediator", "Received response data: $responseData")
 
             storyDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -66,6 +70,7 @@ class StoryRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
+            Log.e("StoryRemoteMediator", "Error loading data", exception)
             return MediatorResult.Error(exception)
         }
     }

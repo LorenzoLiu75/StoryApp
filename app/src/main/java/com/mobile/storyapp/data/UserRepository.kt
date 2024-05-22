@@ -13,6 +13,9 @@ import com.mobile.storyapp.data.response.DetailStoryResponse
 import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.response.StoryResponse
 import com.mobile.storyapp.data.pref.UserPreference
+import com.mobile.storyapp.data.response.FileUploadResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class UserRepository(
     private val apiService: ApiService,
@@ -28,7 +31,6 @@ class UserRepository(
             ),
             remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
             pagingSourceFactory = {
-//                StoryPagingSource(apiService)
                 storyDatabase.storyDao().getAllStories()
             }
         ).liveData
