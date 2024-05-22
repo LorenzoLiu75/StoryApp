@@ -1,5 +1,9 @@
 package com.mobile.storyapp.data.api
 
+import com.mobile.storyapp.data.response.DetailStoryResponse
+import com.mobile.storyapp.data.response.FileUploadResponse
+import com.mobile.storyapp.data.response.ListStoryItem
+import com.mobile.storyapp.data.response.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.GET
@@ -12,13 +16,16 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("stories")
-    suspend fun getStories(): StoryResponse
-
-    @GET("stories")
     suspend fun getStoriesAll(
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 20
     ): StoryResponse
+
+    @GET("stories")
+    suspend fun getStories(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): List<ListStoryItem>
 
     @GET("stories")
     suspend fun getStoriesWithLocation(

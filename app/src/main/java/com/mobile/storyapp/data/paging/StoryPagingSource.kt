@@ -3,7 +3,7 @@ package com.mobile.storyapp.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mobile.storyapp.data.api.ApiService
-import com.mobile.storyapp.data.api.ListStoryItem
+import com.mobile.storyapp.data.response.ListStoryItem
 
 class StoryPagingSource(private val apiService: ApiService) : PagingSource<Int, ListStoryItem>() {
     override fun getRefreshKey(state: PagingState<Int, ListStoryItem>): Int? {

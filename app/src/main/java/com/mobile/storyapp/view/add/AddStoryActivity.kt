@@ -17,9 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.mobile.storyapp.R
-import com.mobile.storyapp.data.adapter.LoadingStateAdapter
-import com.mobile.storyapp.data.adapter.StoryAdapter
-import com.mobile.storyapp.data.api.FileUploadResponse
+import com.mobile.storyapp.data.response.FileUploadResponse
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivityAddStoryBinding
 import com.mobile.storyapp.getImageUri

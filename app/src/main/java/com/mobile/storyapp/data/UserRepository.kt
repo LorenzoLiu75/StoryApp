@@ -1,33 +1,35 @@
 package com.mobile.storyapp.data
 
 import androidx.lifecycle.LiveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.mobile.storyapp.data.api.ApiService
-import com.mobile.storyapp.data.api.DetailStoryResponse
-import com.mobile.storyapp.data.api.ListStoryItem
-import com.mobile.storyapp.data.api.StoryResponse
-import com.mobile.storyapp.data.paging.StoryPagingSource
+import com.mobile.storyapp.data.database.StoryDatabase
+import com.mobile.storyapp.data.mediator.StoryRemoteMediator
+import com.mobile.storyapp.data.response.DetailStoryResponse
+import com.mobile.storyapp.data.response.ListStoryItem
+import com.mobile.storyapp.data.response.StoryResponse
 import com.mobile.storyapp.data.pref.UserPreference
 
 class UserRepository(
     private val apiService: ApiService,
+    private val storyDatabase: StoryDatabase,
     private val userPreference: UserPreference
 ) {
 
-    suspend fun getStories(): StoryResponse {
-        return apiService.getStories()
-    }
-
+    @OptIn(ExperimentalPagingApi::class)
     fun getStoriesAll(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
             pagingSourceFactory = {
-                StoryPagingSource(apiService)
+//                StoryPagingSource(apiService)
+                storyDatabase.storyDao().getAllStories()
             }
         ).liveData
     }
@@ -47,6 +49,6 @@ class UserRepository(
     }
 
     companion object {
-        fun getInstance(apiService: ApiService, userPreference: UserPreference) = UserRepository(apiService, userPreference)
+        fun getInstance(apiService: ApiService, storyDatabase: StoryDatabase, userPreference: UserPreference) = UserRepository(apiService, storyDatabase, userPreference)
     }
 }

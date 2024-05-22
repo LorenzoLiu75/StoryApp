@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobile.storyapp.data.UserRepository
-import com.mobile.storyapp.data.api.StoryResponse
+import com.mobile.storyapp.data.response.StoryResponse
 import kotlinx.coroutines.launch
 
 class MapsViewModel(private val userRepository: UserRepository) : ViewModel() {

@@ -8,8 +8,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.data.api.ApiConfig
-import com.mobile.storyapp.data.api.FileUploadResponse
-import com.mobile.storyapp.data.api.ListStoryItem
+import com.mobile.storyapp.data.response.FileUploadResponse
+import com.mobile.storyapp.data.response.ListStoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody

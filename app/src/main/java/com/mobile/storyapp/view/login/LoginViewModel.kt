@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobile.storyapp.data.AuthRepository
-import com.mobile.storyapp.data.api.LoginResponse
+import com.mobile.storyapp.data.response.LoginResponse
 import com.mobile.storyapp.data.pref.UserModel
 import kotlinx.coroutines.launch
 

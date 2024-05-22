@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.mobile.storyapp.data.AuthRepository
-import com.mobile.storyapp.data.api.ErrorResponse
+import com.mobile.storyapp.data.response.ErrorResponse
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 

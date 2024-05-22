@@ -1,8 +1,8 @@
 package com.mobile.storyapp.data
 
 import com.mobile.storyapp.data.api.AuthApiService
-import com.mobile.storyapp.data.api.LoginResponse
-import com.mobile.storyapp.data.api.RegisterResponse
+import com.mobile.storyapp.data.response.LoginResponse
+import com.mobile.storyapp.data.response.RegisterResponse
 import com.mobile.storyapp.data.pref.UserModel
 import com.mobile.storyapp.data.pref.UserPreference
 

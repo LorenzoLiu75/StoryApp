@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import coil.load
 import com.mobile.storyapp.R
-import com.mobile.storyapp.data.api.Story
+import com.mobile.storyapp.data.response.Story
 import com.mobile.storyapp.databinding.ActivityDetailBinding
 import com.mobile.storyapp.view.ViewModelFactory
 

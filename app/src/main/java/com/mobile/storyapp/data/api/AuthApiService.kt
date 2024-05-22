@@ -1,5 +1,7 @@
 package com.mobile.storyapp.data.api
 
+import com.mobile.storyapp.data.response.LoginResponse
+import com.mobile.storyapp.data.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

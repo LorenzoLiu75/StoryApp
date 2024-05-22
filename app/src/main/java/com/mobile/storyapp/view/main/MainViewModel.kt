@@ -8,8 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mobile.storyapp.data.UserRepository
-import com.mobile.storyapp.data.api.ListStoryItem
-import com.mobile.storyapp.data.api.StoryResponse
+import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.pref.UserModel
 import kotlinx.coroutines.launch
 

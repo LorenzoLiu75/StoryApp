@@ -8,10 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.mobile.storyapp.data.api.ListStoryItem
+import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.databinding.ItemStoryBinding
 import com.mobile.storyapp.view.detail.DetailActivity
 
