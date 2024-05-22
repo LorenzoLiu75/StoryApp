@@ -9,8 +9,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.storyapp.R
 import com.mobile.storyapp.data.adapter.LoadingStateAdapter
@@ -26,11 +29,19 @@ class MainActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityMainBinding
+    private lateinit var addStoryLauncher: ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        addStoryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                getStory()
+            }
+        }
 
         viewModel.isLoading.observe(this) { isLoading ->
             showLoading(isLoading)
@@ -52,6 +63,11 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getStory()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,16 +95,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getStory() {
-        showLoading(true)
         val adapter = StoryAdapter()
         binding.listStory.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
                 adapter.retry()
             }
         )
-        viewModel.story.observe(this) {
-            adapter.submitData(lifecycle, it)
-            showLoading(false)
+
+        viewModel.story.observe(this) { pagingData ->
+            showLoading(false)  // Hide loading when data is received
+            adapter.submitData(lifecycle, pagingData)
+        }
+
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                showLoading(true)  // Show loading when data is being fetched
+            } else {
+                showLoading(false)  // Hide loading when data fetch is complete
+            }
         }
     }
 
@@ -107,5 +131,4 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
 }
