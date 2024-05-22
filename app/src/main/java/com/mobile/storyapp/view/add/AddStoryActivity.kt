@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.mobile.storyapp.R
+import com.mobile.storyapp.data.adapter.LoadingStateAdapter
+import com.mobile.storyapp.data.adapter.StoryAdapter
 import com.mobile.storyapp.data.api.FileUploadResponse
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivityAddStoryBinding
@@ -170,7 +172,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getStories()
     }
 
     private fun showLoading(isLoading: Boolean) {
