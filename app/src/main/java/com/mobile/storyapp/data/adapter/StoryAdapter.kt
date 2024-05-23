@@ -32,6 +32,7 @@ class StoryAdapter :
             val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
             if (story != null) {
                 intentDetail.putExtra("storyId", story.id)
+                intentDetail.putExtra("storyPhotoUrl", story.photoUrl)
             }
 
             val photoPair = android.util.Pair.create(holder.binding.ivItemPhoto as View, "photo")
@@ -72,14 +73,4 @@ class StoryAdapter :
 
         }
     }
-
-//    class StoryDiffCallback : DiffUtil.ItemCallback<ListStoryItem>() {
-//        override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
-//            return oldItem.id == newItem.id
-//        }
-//
-//        override fun areContentsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
-//            return oldItem == newItem
-//        }
-//    }
 }

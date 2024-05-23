@@ -62,12 +62,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if(!adapter.snapshot().isEmpty()){
             adapter.refresh()
-            lifecycleScope.launch {
-                adapter.loadStateFlow
-                    .collect {
-                        binding.listStory.smoothScrollToPosition(0)
-                    }
-            }
         }
     }
 

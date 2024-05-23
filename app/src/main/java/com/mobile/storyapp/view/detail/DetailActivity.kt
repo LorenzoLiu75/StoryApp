@@ -28,6 +28,11 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.detail_story)
 
         val storyId = intent.getStringExtra("storyId")
+        val storyPhotoUrl = intent.getStringExtra("storyPhotoUrl")
+
+        storyPhotoUrl?.let {
+            binding.ivDetailPhoto.load(it)
+        }
 
         storyId?.let {
             viewModel.getStoryDetail(it)
