@@ -54,32 +54,31 @@ class LoginActivityTest {
             IdlingRegistry.getInstance().register(ProgressBarIdlingResource(progressBar))
         }
 
-        // Input email
+
         onView(withId(R.id.ed_login_email)).perform(typeText("alisa999@gmail.com"), closeSoftKeyboard())
-        // Input password
+
         onView(withId(R.id.ed_login_password)).perform(typeText("alisacantik80"), closeSoftKeyboard())
-        // Click login button
+
         onView(withId(R.id.loginButton)).perform(click())
-        // Wait for AlertDialog to appear
+
         onView(withText(R.string.yeah)).inRoot(isDialog()).check(matches(isDisplayed()))
-        // Click the AlertDialog positive button
+
         onView(withText(R.string.lanjut)).perform(click())
-        // Verify that MainActivity is launched
+
         onView(withId(R.id.main)).check(matches(isDisplayed()))
     }
 
     @Test
     fun testLogout() {
-        // Simulate login success by launching MainActivity
+
         activity.scenario.onActivity {
             it.startActivity(Intent(it, MainActivity::class.java))
         }
 
-        // Buka menu opsi
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        // Click logout button
+
         onView(withId(R.id.logout)).perform(click())
-        // Verify that WelcomeActivity is launched
+
         onView(withId(R.id.welcome)).check(matches(isDisplayed()))
     }
 }
