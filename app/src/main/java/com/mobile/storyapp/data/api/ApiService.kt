@@ -2,7 +2,6 @@ package com.mobile.storyapp.data.api
 
 import com.mobile.storyapp.data.response.DetailStoryResponse
 import com.mobile.storyapp.data.response.FileUploadResponse
-import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.response.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

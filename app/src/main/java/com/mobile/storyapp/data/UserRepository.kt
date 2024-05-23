@@ -13,10 +13,7 @@ import com.mobile.storyapp.data.response.DetailStoryResponse
 import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.response.StoryResponse
 import com.mobile.storyapp.data.pref.UserPreference
-import com.mobile.storyapp.data.response.FileUploadResponse
 import com.mobile.storyapp.utils.wrapEspressoIdlingResource
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 class UserRepository(
     private val apiService: ApiService,

@@ -8,9 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mobile.storyapp.data.UserRepository
-import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.pref.UserModel
-import com.mobile.storyapp.utils.EspressoIdlingResource
+import com.mobile.storyapp.data.response.ListStoryItem
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {

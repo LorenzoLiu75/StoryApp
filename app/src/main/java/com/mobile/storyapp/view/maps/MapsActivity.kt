@@ -1,12 +1,11 @@
 package com.mobile.storyapp.view.maps
 
 import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -15,11 +14,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobile.storyapp.R
-import com.mobile.storyapp.data.UserRepository
-import com.mobile.storyapp.data.api.ApiService
 import com.mobile.storyapp.databinding.ActivityMapsBinding
 import com.mobile.storyapp.view.ViewModelFactory
-import com.mobile.storyapp.view.detail.DetailViewModel
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
