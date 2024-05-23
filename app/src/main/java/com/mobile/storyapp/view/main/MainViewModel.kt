@@ -10,6 +10,7 @@ import androidx.paging.cachedIn
 import com.mobile.storyapp.data.UserRepository
 import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.pref.UserModel
+import com.mobile.storyapp.utils.EspressoIdlingResource
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {
@@ -25,8 +26,10 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     fun logout() {
+        EspressoIdlingResource.increment()
         viewModelScope.launch {
             repository.logout()
+            EspressoIdlingResource.decrement()
         }
     }
 }

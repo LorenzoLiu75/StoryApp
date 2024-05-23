@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobile.storyapp.data.AuthRepository
 import com.mobile.storyapp.data.response.LoginResponse
 import com.mobile.storyapp.data.pref.UserModel
+import com.mobile.storyapp.utils.EspressoIdlingResource
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
@@ -21,6 +22,7 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun login(email: String, password: String) {
+        EspressoIdlingResource.increment()
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -41,13 +43,16 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
                 _error.value = e.message ?: networkErrorMessage
             } finally {
                 _isLoading.value = false
+                EspressoIdlingResource.decrement()
             }
         }
     }
 
     fun saveSession(user: UserModel) {
+        EspressoIdlingResource.increment()
         viewModelScope.launch {
             repository.saveSession(user)
+            EspressoIdlingResource.decrement()
         }
     }
 }

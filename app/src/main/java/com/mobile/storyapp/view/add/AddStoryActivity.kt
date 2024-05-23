@@ -23,9 +23,9 @@ import com.mobile.storyapp.R
 import com.mobile.storyapp.data.response.FileUploadResponse
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.databinding.ActivityAddStoryBinding
-import com.mobile.storyapp.getImageUri
-import com.mobile.storyapp.reduceFileImage
-import com.mobile.storyapp.uriToFile
+import com.mobile.storyapp.utils.getImageUri
+import com.mobile.storyapp.utils.reduceFileImage
+import com.mobile.storyapp.utils.uriToFile
 import com.mobile.storyapp.view.ViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

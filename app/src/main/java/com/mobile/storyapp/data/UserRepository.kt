@@ -14,6 +14,7 @@ import com.mobile.storyapp.data.response.ListStoryItem
 import com.mobile.storyapp.data.response.StoryResponse
 import com.mobile.storyapp.data.pref.UserPreference
 import com.mobile.storyapp.data.response.FileUploadResponse
+import com.mobile.storyapp.utils.wrapEspressoIdlingResource
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -25,15 +26,17 @@ class UserRepository(
 
     @OptIn(ExperimentalPagingApi::class)
     fun getStoriesAll(): LiveData<PagingData<ListStoryItem>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
-            pagingSourceFactory = {
-                storyDatabase.storyDao().getAllStories()
-            }
-        ).liveData
+        wrapEspressoIdlingResource {
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 5
+                ),
+                remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+                pagingSourceFactory = {
+                    storyDatabase.storyDao().getAllStories()
+                }
+            ).liveData
+        }
     }
 
     suspend fun getStoriesWithLocation(): StoryResponse {
