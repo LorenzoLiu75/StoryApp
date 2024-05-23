@@ -26,10 +26,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     fun logout() {
-        EspressoIdlingResource.increment()
         viewModelScope.launch {
             repository.logout()
-            EspressoIdlingResource.decrement()
         }
     }
 }

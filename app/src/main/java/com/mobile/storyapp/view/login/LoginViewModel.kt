@@ -22,7 +22,6 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun login(email: String, password: String) {
-        EspressoIdlingResource.increment()
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -43,7 +42,6 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
                 _error.value = e.message ?: networkErrorMessage
             } finally {
                 _isLoading.value = false
-                EspressoIdlingResource.decrement()
             }
         }
     }

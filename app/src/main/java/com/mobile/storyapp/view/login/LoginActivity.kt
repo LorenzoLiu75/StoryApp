@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mobile.storyapp.R
 import com.mobile.storyapp.data.pref.UserModel
 import com.mobile.storyapp.databinding.ActivityLoginBinding
+import com.mobile.storyapp.utils.wrapEspressoIdlingResource
 import com.mobile.storyapp.view.AuthViewModelFactory
 import com.mobile.storyapp.view.main.MainActivity
 
@@ -63,32 +64,34 @@ class LoginActivity : AppCompatActivity() {
             }
 
             viewModel.loginResult.observe(this) { response ->
-                if (!response.error!!) {
-                    val token = response.loginResult?.token
-                    if (token != null) {
-                        val userModel = UserModel(email, token, true)
-                        viewModel.saveSession(userModel)
+                wrapEspressoIdlingResource {
+                    if (!response.error!!) {
+                        val token = response.loginResult?.token
+                        if (token != null) {
+                            val userModel = UserModel(email, token, true)
+                            viewModel.saveSession(userModel)
 
-                        AlertDialog.Builder(this).apply {
-                            setTitle(getString(R.string.yeah))
-                            setMessage(getString(R.string.success))
-                            setPositiveButton(getString(R.string.lanjut)) { _, _ ->
-                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivity(intent)
-                                finish()
+                            AlertDialog.Builder(this).apply {
+                                setTitle(getString(R.string.yeah))
+                                setMessage(getString(R.string.success))
+                                setPositiveButton(getString(R.string.lanjut)) { _, _ ->
+                                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                    finish()
+                                }
+                                create()
+                                show()
                             }
+                        }
+                    } else {
+                        AlertDialog.Builder(this).apply {
+                            setTitle(getString(R.string.error))
+                            setMessage(getString(R.string.login_failed))
+                            setPositiveButton(getString(R.string.ok)) { _, _ -> }
                             create()
                             show()
                         }
-                    }
-                } else {
-                    AlertDialog.Builder(this).apply {
-                        setTitle(getString(R.string.error))
-                        setMessage(getString(R.string.login_failed))
-                        setPositiveButton(getString(R.string.ok)) { _, _ -> }
-                        create()
-                        show()
                     }
                 }
             }
