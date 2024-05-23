@@ -77,7 +77,7 @@ class LoginActivityTest {
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
 
-        onView(withId(R.id.logout)).perform(click())
+        onView(withText(R.string.logout)).perform(click())
 
         onView(withId(R.id.welcome)).check(matches(isDisplayed()))
     }
